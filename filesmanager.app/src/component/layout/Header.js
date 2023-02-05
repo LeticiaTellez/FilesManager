@@ -5,6 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import GlobalStyles from '@mui/material/GlobalStyles';
+import { signIn, signOut, editProfile } from '../../authRedirect';
 
 function PricingContent() {
   return (
@@ -21,11 +22,11 @@ function PricingContent() {
           <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
             Files Manager
           </Typography>
-          <Button href="#" variant="outlined" sx={{ my: 1, mx: 1.5 }}>
-            Edit
+          <Button href="#" variant="outlined" sx={{ my: 1, mx: 1.5 }} onClick={editProfile}>
+            Edit Profile
           </Button>
-          <Button href="#" variant="outlined" color="error" sx={{ my: 1, mx: 1.5 }}>
-            Logout
+          <Button href="#" variant="outlined" color="error" sx={{ my: 1, mx: 1.5 }} onClick={signOut}>
+            Sign Out
           </Button>
         </Toolbar>
       </AppBar>

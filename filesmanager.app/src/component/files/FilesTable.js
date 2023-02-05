@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -8,6 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
+import { getFiles } from '../../api/files/filesClient';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -29,16 +30,18 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(name, date) {
-  return { name, date};
-}
-
-const rows = [
-  createData('File 1', '2023/02/03'),
-  createData('File 2', '2023/02/03')
-];
-
 export default function CustomizedTables() {
+  const [files, setFiles] = useState([]);
+
+  useEffect(() => {
+    const fetchFiles = async () => {
+      const files = await getFiles();
+      setFiles(files);
+    }
+
+    fetchFiles();
+  }, []);
+
   return (
     <Container maxWidth="lg" component="main">
       <TableContainer component={Paper}>
@@ -51,7 +54,7 @@ export default function CustomizedTables() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {[].map((row) => (
               <StyledTableRow key={row.name}>
                 <StyledTableCell component="th" scope="row">
                   {row.name}

@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Azure;
 using Microsoft.Identity.Web;
+using FilesManager.Logic.CosmoDBServices;
+using FilesManager.Api;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
@@ -27,6 +30,15 @@ builder.Services.AddCors(options =>
                       });
 });
 
+builder.Services.AddSingleton<ICosmosDbService>(
+    CosmosInitializer.InitializeCosmosClientInstanceAsync(builder.Configuration.GetSection("CosmosDb"))
+    .GetAwaiter()
+    .GetResult());
+builder.Services.AddAzureClients(options =>
+{
+    var conn = builder.Configuration.GetSection("BlobStorage:ConnectionString");
+    options.AddBlobServiceClient(conn);  
+});
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
