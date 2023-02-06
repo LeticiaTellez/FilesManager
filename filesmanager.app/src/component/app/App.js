@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
 import { signIn, signOut, isLoggedIn, selectAccount } from '../../authRedirect';
 import { getFiles } from '../../api/files/filesClient';
 import Router from '../../Router';
