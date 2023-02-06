@@ -8,12 +8,14 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
-import { getFiles } from '../../api/files/filesClient';
+import { getFiles, downloadFile } from '../../api/files/filesClient';
 import IconButton from '@mui/material/IconButton';
-import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
+import CloudDownloadOutlinedIcon from '@mui/icons-material/CloudDownloadOutlined';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import { useHistory } from "react-router-dom";
+import { DateTime } from "luxon";
+import { downloadFileWithName } from "../../utils/filesHelper";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -54,8 +56,9 @@ export default function CustomizedTables() {
     fetchFiles();
   }, []);
 
-  const onClickDownload = fileId => {
-    console.log(fileId);
+  const download = async ({ id, originalName }) => {
+    const file = await downloadFile(id);
+    downloadFileWithName(file, originalName);
   }
 
   const goToAdd = () => {
@@ -69,7 +72,6 @@ export default function CustomizedTables() {
           <TableHead>
             <TableRow>
               <StyledTableCell>File Name</StyledTableCell>
-              <StyledTableCell>File Type</StyledTableCell>
               <StyledTableCell>Description</StyledTableCell>
               <StyledTableCell>Creation Date</StyledTableCell>
               <StyledTableCell>Download</StyledTableCell>
@@ -79,14 +81,13 @@ export default function CustomizedTables() {
             {files.map((file) => (
               <StyledTableRow key={file.id}>
                 <StyledTableCell component="th" scope="row">
-                  {file.fileName}
+                  {file.originalName}
                 </StyledTableCell>
-                <StyledTableCell>{file.fileType}</StyledTableCell>
                 <StyledTableCell>{file.description}</StyledTableCell>
-                <StyledTableCell>{file.createdAt}</StyledTableCell>
+                <StyledTableCell>{DateTime.fromISO(file.createdAt).toFormat('dd/MM/yyyy hh:mm a')}</StyledTableCell>
                 <StyledTableCell>
-                  <IconButton color="success" aria-label="Download file" component="label" onClick={() => onClickDownload(file.id)}>
-                    <CloudDownloadIcon />
+                  <IconButton color="success" aria-label="Download file" component="label" onClick={() => download(file)}>
+                    <CloudDownloadOutlinedIcon />
                   </IconButton>
                 </StyledTableCell>
               </StyledTableRow>

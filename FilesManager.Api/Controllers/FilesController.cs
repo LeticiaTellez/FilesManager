@@ -73,7 +73,7 @@ namespace FilesManager.Api.Controllers
 
         [Authorize]
         [HttpPost("Upload")]
-        public async Task<IActionResult> Upload(IFormFile file, string name, string userId, string description)
+        public async Task<IActionResult> Upload(IFormFile file, [FromForm] string name, [FromForm] string userId, [FromForm] string description)
         {
             long size = file.Length;
             var (isValid, error) = file.Validate(name, userId);

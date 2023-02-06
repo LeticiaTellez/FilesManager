@@ -121,3 +121,20 @@ export const isLoggedIn = () => {
     return false;
   }
 }
+
+export const getUserId = () => {
+  let userId = "";
+  try {
+    const currentAccounts = myMSALObj.getAllAccounts();
+
+    if (currentAccounts.length > 0) {
+      userId = currentAccounts[0].localAccountId;
+      console.log(userId);
+    }
+
+    return userId;
+  } catch (error) {
+    console.log(error);
+    return userId;
+  }
+}
