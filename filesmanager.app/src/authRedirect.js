@@ -6,7 +6,6 @@ import { registerDefaults } from './api/baseApiClient';
 const myMSALObj = new msal.PublicClientApplication(msalConfig);
 
 let accountId = "";
-let username = "";
 let accessToken = null;
 
 export const signIn = () => {
@@ -35,7 +34,6 @@ const handleResponse = async (response) => {
 
 const setAccount = (account) => {
   accountId = account.homeAccountId;
-  username = account.username;
   getTokenRedirect(tokenRequest);
 }
 
@@ -88,7 +86,7 @@ const getTokenRedirect = (request) => {
   return myMSALObj.acquireTokenSilent(request)
     .then((response) => {
       if (!response.accessToken || response.accessToken === "") {
-        throw new msal.InteractionRequiredAuthError;
+        throw new msal.InteractionRequiredAuthError();
       } else {
         accessToken = response.accessToken;
         registerDefaults(accessToken);

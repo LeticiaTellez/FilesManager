@@ -32,6 +32,8 @@ export const msalConfig = {
           case msal.LogLevel.Warning:
             console.warn(message);
             return;
+          default:
+            console.log(message);
         }
       }
     }
@@ -43,6 +45,6 @@ export const loginRequest = {
 };
 
 export const tokenRequest = {
-  scopes: [...apiConfig.b2cScopes], 
-  forceRefresh: false 
+  scopes: [...apiConfig.b2cScopes],
+  forceRefresh: false
 };

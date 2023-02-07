@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Loadable from "react-loadable";
 //import PrivateRoute from "./PrivateRoute";
 import Header from './component/layout/Header';
 import Footer from './component/layout/Footer';
-import AddFiles from "./component/files/AddFiles";
-import FilesTable from "./component/files/FilesTable";
 
 const loadable = loader =>
   Loadable({
