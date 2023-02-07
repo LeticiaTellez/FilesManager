@@ -4,10 +4,11 @@ using Azure.Storage.Blobs;
 using FilesManager.Logic.CosmoDBServices;
 using FilesManager.Logic.Extensions;
 using FilesManager.Domain;
+using System.Security.Claims;
 
 namespace FilesManager.Api.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class FilesController : ControllerBase
@@ -24,7 +25,9 @@ namespace FilesManager.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> List()
         {
-            return Ok(await _cosmosDbService.GetMultipleAsync(Constants.SELECT_LIST));
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var query = string.Format(Constants.SELECT_LIST, userId);
+            return Ok(await _cosmosDbService.GetMultipleAsync(query));
         }
 
         [HttpPost]

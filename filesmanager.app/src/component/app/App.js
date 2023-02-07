@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { signIn, signOut, isLoggedIn, selectAccount } from '../../authRedirect';
-import { getFiles } from '../../api/files/filesClient';
+import React, { useEffect } from 'react';
+import { signIn, isLoggedIn, selectAccount } from '../../authRedirect';
 import Router from '../../Router';
 
 function App() {

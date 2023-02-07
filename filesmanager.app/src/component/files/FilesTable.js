@@ -16,6 +16,9 @@ import AddIcon from '@mui/icons-material/Add';
 import { useHistory } from "react-router-dom";
 import { DateTime } from "luxon";
 import { downloadFileWithName } from "../../utils/filesHelper";
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -53,7 +56,9 @@ export default function CustomizedTables() {
       setFiles(files);
     }
 
-    fetchFiles();
+    setTimeout(() => {
+      fetchFiles();
+    }, 800);
   }, []);
 
   const download = async ({ id, originalName }) => {
@@ -65,8 +70,17 @@ export default function CustomizedTables() {
     history.push("/files/add");
   }
 
+  if (files.length === 0) {
+    return (<Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 8 }}>
+      <CircularProgress />
+    </Box>)
+  }
+
   return (
-    <Container maxWidth="lg" component="main" style={{ marginTop: 20, minHeight: 600 }}>
+    <Container maxWidth="lg" component="main" style={{ marginTop: 20, minHeight: 400 }}>
+      <Typography variant="h6" gutterBottom>
+          File List
+        </Typography>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
