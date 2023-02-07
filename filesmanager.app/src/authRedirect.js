@@ -90,7 +90,6 @@ const getTokenRedirect = (request) => {
       if (!response.accessToken || response.accessToken === "") {
         throw new msal.InteractionRequiredAuthError;
       } else {
-        console.log("access_token acquired at: " + new Date().toString());
         accessToken = response.accessToken;
         registerDefaults(accessToken);
       }
@@ -129,7 +128,6 @@ export const getUserId = () => {
 
     if (currentAccounts.length > 0) {
       userId = currentAccounts[0].localAccountId;
-      console.log(userId);
     }
 
     return userId;

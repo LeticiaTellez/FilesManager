@@ -19,7 +19,6 @@ const AddFiles = () => {
   const handleUpload = async () => {
     setUploading(true);
     const formData = getDataToSend();
-    console.log(formData);
 
     try {
       const result = await saveFile(formData);

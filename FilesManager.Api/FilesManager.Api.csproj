@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FilesManager.Data\FilesManager.Domain.csproj" />
+    <ProjectReference Include="..\FilesManager.Domain\FilesManager.Domain.csproj" />
     <ProjectReference Include="..\FilesManager.Logic\FilesManager.Logic.csproj" />
   </ItemGroup>
 
