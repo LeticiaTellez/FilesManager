@@ -23,12 +23,10 @@ const AddFiles = () => {
     try {
       const result = await saveFile(formData);
       if (result.status === "error") {
-        //errorNotif(result.message);
         setUploading(false);
         return;
       }
 
-      //successNotif("Archivo guardado", "El archivo ha sido guardado exitosamente");
       history.push("/files");
     } catch (error) {
       console.log(error);
@@ -56,6 +54,14 @@ const AddFiles = () => {
     setDescription(event.target.value);
   }
 
+  const formIsValid = () => {
+    return fileIsSelected() && !!description && description !== '';
+  }
+
+  const fileIsSelected = () => {
+    return file && file.length > 0;
+  }
+
   return (
     <Container maxWidth="lg" component="main" style={{ marginTop: 20, minHeight: 600 }}>
       <Box
@@ -78,7 +84,7 @@ const AddFiles = () => {
         <div>
           <Button variant="outlined" component="label" style={{ width: 890 }}>
             <AttachFileIcon />
-            {file ? file[0].name : 'Attach File...'}
+            {fileIsSelected() ? file[0].name : 'Attach File...'}
             <input hidden accept="*" type="file" onChange={onChangeFile} />
           </Button>
         </div>
@@ -93,7 +99,7 @@ const AddFiles = () => {
           />
         </div>
         <div>
-          <Button variant="contained" endIcon={<SendIcon />} onClick={handleUpload}>
+          <Button variant="contained" endIcon={<SendIcon />} onClick={handleUpload} disabled={!formIsValid() || uploading}>
             {uploading ? 'Saving...' : 'Save'}
           </Button>
         </div>

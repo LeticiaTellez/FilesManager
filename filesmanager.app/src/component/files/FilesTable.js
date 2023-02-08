@@ -53,7 +53,8 @@ export default function CustomizedTables() {
   useEffect(() => {
     const fetchFiles = async () => {
       const files = await getFiles();
-      setFiles(files);
+      const filledFiles = files.length > 0 ? files : [{ id: '0' }]
+      setFiles(filledFiles);
     }
 
     setTimeout(() => {
@@ -76,11 +77,24 @@ export default function CustomizedTables() {
     </Box>)
   }
 
+  const getDate = (file) => {
+    return file?.createdAt
+      ? DateTime.fromISO(file.createdAt).toFormat('dd/MM/yyyy hh:mm a')
+      : 'Empty List';
+  }
+
+  const getIcon = file => {
+    return file?.originalName
+      ? (<IconButton color="success" aria-label="Download file" component="label" onClick={() => download(file)}>
+        <CloudDownloadOutlinedIcon />
+      </IconButton>) : '';
+  }
+
   return (
     <Container maxWidth="lg" component="main" style={{ marginTop: 20, minHeight: 400 }}>
       <Typography variant="h6" gutterBottom>
-          File List
-        </Typography>
+        File List
+      </Typography>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
@@ -98,11 +112,9 @@ export default function CustomizedTables() {
                   {file.originalName}
                 </StyledTableCell>
                 <StyledTableCell>{file.description}</StyledTableCell>
-                <StyledTableCell>{DateTime.fromISO(file.createdAt).toFormat('dd/MM/yyyy hh:mm a')}</StyledTableCell>
+                <StyledTableCell>{getDate(file)}</StyledTableCell>
                 <StyledTableCell>
-                  <IconButton color="success" aria-label="Download file" component="label" onClick={() => download(file)}>
-                    <CloudDownloadOutlinedIcon />
-                  </IconButton>
+                  {getIcon(file)}
                 </StyledTableCell>
               </StyledTableRow>
             ))}
